@@ -37,21 +37,13 @@ public class FTPConfiguration {
 		return sf;
 	}
 	
-	@ServiceActivator(inputChannel = "ftpLS")
-	@Bean
-	public FtpOutboundGateway getGW() {
-		FtpOutboundGateway gateway = new FtpOutboundGateway(sf(), "ls", "payload");
-		gateway.setOption(Option.NAME_ONLY);
-		gateway.setOutputChannelName("results");
-		return gateway;
-	}
-	
 	@ServiceActivator(inputChannel = "ftpPut")
 	@Bean
 	public MessageHandler uploadFile() {
 		ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
 		
 		FtpMessageHandler handler = new FtpMessageHandler (sf());
+		handler.setLoggingEnabled(true);
 		handler.setAutoCreateDirectory(false);
 		handler.setRemoteDirectoryExpression(EXPRESSION_PARSER.parseExpression("headers['path']"));
 	    handler.setFileNameGenerator(new FileNameGenerator() {
@@ -63,32 +55,8 @@ public class FTPConfiguration {
 	    return handler;
 	}
 
-	@Bean
-	public MessageChannel results() {
-		DirectChannel channel = new DirectChannel();
-		channel.addInterceptor(tap());
-		return channel;
-	}
-
-	@Bean
-	public WireTap tap() {
-		return new WireTap("logging");
-	}
-
-	@ServiceActivator(inputChannel = "logging")
-	@Bean
-	public LoggingHandler logger() {
-		LoggingHandler logger = new LoggingHandler(Level.INFO);
-		logger.setLogExpressionString("'Files:' + payload");
-		return logger;
-	}
-
 	@MessagingGateway
 	public interface Gate {
-
-		@SuppressWarnings("rawtypes")
-		@Gateway(requestChannel = "ftpLS", replyChannel = "results")
-		List list(String directory);
 					     
 	     @Gateway(requestChannel = "ftpPut")
 	     void sendToFtp(@Payload byte[] file, @Header("filename") String filename, @Header("path") String path);
