@@ -30,7 +30,7 @@ public class FTPConfiguration {
 	@Bean
 	public DefaultFtpSessionFactory sf() {
 		DefaultFtpSessionFactory sf = new DefaultFtpSessionFactory();
-		sf.setHost("ftp.habeshait.com");
+		sf.setHost("69.195.124.113");
 		sf.setPort(21);
 		sf.setUsername("haile@habeshait.com");
 		sf.setPassword("Abbhst@1985");
