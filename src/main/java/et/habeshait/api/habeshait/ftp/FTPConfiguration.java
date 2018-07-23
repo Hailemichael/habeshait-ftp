@@ -2,6 +2,7 @@ package et.habeshait.api.habeshait.ftp;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.ExpressionParser;
@@ -9,17 +10,10 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.channel.DirectChannel;
-import org.springframework.integration.channel.interceptor.WireTap;
 import org.springframework.integration.file.FileNameGenerator;
-import org.springframework.integration.file.remote.gateway.AbstractRemoteFileOutboundGateway.Option;
-import org.springframework.integration.ftp.gateway.FtpOutboundGateway;
 import org.springframework.integration.ftp.outbound.FtpMessageHandler;
 import org.springframework.integration.ftp.session.DefaultFtpSessionFactory;
-import org.springframework.integration.handler.LoggingHandler;
-import org.springframework.integration.handler.LoggingHandler.Level;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -27,13 +21,26 @@ import org.springframework.messaging.handler.annotation.Payload;
 @Configuration
 public class FTPConfiguration {
 	
+	@Value("${ftp.host}")
+	private String ftpHost;
+	
+	@Value("${ftp.port}")
+	private String ftpPort;
+	
+	@Value("${ftp.user}")
+	private String ftpUser;
+	
+	@Value("${ftp.password}")
+	private String ftpPassword;
+	
 	@Bean
 	public DefaultFtpSessionFactory sf() {
 		DefaultFtpSessionFactory sf = new DefaultFtpSessionFactory();
-		sf.setHost("69.195.124.113");
-		sf.setPort(21);
-		sf.setUsername("haile@habeshait.com");
-		sf.setPassword("Abbhst@1985");
+		sf.setHost(ftpHost);
+		sf.setPort(Integer.parseInt(ftpPort));
+		sf.setUsername(ftpUser);
+		sf.setPassword(ftpPassword);
+		sf.setClientMode(2);
 		return sf;
 	}
 	
