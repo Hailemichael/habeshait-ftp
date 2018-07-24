@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import et.habeshait.api.habeshait.ftp.FTPConfiguration.Gate;
+import et.habeshait.api.habeshait.ftp.config.FTPConfiguration.Gate;
 
 @Controller
 @RequestMapping("/")

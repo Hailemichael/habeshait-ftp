@@ -1,6 +1,4 @@
-package et.habeshait.api.habeshait.ftp;
-
-import java.util.List;
+package et.habeshait.api.habeshait.ftp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -48,7 +46,6 @@ public class FTPConfiguration {
 	@Bean
 	public MessageHandler uploadFile() {
 		ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
-		
 		FtpMessageHandler handler = new FtpMessageHandler (sf());
 		handler.setLoggingEnabled(true);
 		handler.setAutoCreateDirectory(false);
