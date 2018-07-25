@@ -11,6 +11,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Component
 public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
@@ -19,8 +21,10 @@ public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
       throws IOException, ServletException {
         response.addHeader("WWW-Authenticate", "Basic realm=" +getRealmName());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
         PrintWriter writer = response.getWriter();
-        writer.println("HTTP Status 401 - " + authEx.getMessage());
+        writer.println((new ObjectMapper()).createObjectNode().put("error", authEx.getMessage()));
     }
 
 	@Override

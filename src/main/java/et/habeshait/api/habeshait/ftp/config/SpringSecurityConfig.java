@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Value("${admin.username}")
+	private String adminuserName;
+	
 	@Value("${admin.password}")
 	private String adminPassword;
 	
@@ -37,7 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode(adminPassword)).roles("ADMIN");
+		auth.inMemoryAuthentication().withUser(adminuserName).password(passwordEncoder().encode(adminPassword)).roles("ADMIN");
 		auth.inMemoryAuthentication().withUser(userName).password(passwordEncoder().encode(password)).roles("USER");
 	}
 	
