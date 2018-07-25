@@ -9,6 +9,3 @@ ftp:
   password: ${habeshait.ftp.password}
   port: 21
   user: ${habeshait.ftp.user}
-user:
-  name: ${app.user.name}
-  password: ${app.user.password}
