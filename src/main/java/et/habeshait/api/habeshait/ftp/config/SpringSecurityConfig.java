@@ -15,10 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Value("${user.name}")
+	@Value("${admin.username}")
 	private String userName;
 	
-	@Value("${user.password}")
+	@Value("${admin.password}")
 	private String password;
 
 	@Autowired
