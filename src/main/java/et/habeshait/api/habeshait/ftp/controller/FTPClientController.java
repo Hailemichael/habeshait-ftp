@@ -43,7 +43,7 @@ public class FTPClientController {
 			map.put("error", e.getMessage());
 			return new ResponseEntity<> (map, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String fileName = (new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss.SSSZ")).format(new Date()) + "_" + file.getOriginalFilename();
+		String fileName = file.getOriginalFilename();
 		gate.sendToFtp(toUpload, fileName, path);
 		
 		map.put("imageUrl", "http://habeshait.com/MemePics" + path + "/" + fileName);
